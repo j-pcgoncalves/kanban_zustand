@@ -1,4 +1,4 @@
-module.exports = {
+modules.exports = {
   env: { browser: true, es2020: true },
   extends: [
     'eslint:recommended',
@@ -11,5 +11,6 @@ module.exports = {
   plugins: ['react-refresh'],
   rules: {
     'react-refresh/only-export-components': 'warn',
+    'react/prop-types': 'off'
   },
 }
