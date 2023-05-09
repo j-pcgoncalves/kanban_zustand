@@ -13,10 +13,22 @@ export default function Column({ state }) {
         shallow
     );
 
+    const setDraggedTask = useStore(store => store.setDraggedTask);
+    const draggedTask = useStore(store => store.draggedTask);
+    const moveTask = useStore(store => store.moveTask);
     const addTask = useStore(store => store.addTask);
 
     return (
-        <div className="column">
+        <div 
+            className="column" 
+            onDragOver={e => {
+                e.preventDefault();
+            }}
+            onDrop={e => {
+                setDraggedTask(null);
+                moveTask(draggedTask, state);
+            }}
+        >
             <div className='titleWrapper'>
                 <p>{state}</p>
                 <button onClick={() => setOpen(true)}>Add</button>
