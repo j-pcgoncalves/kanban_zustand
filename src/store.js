@@ -1,11 +1,9 @@
 import { create } from "zustand";
 import { produce } from 'immer';
+import { devtools, persist } from 'zustand/middleware';
 
 const store = set => ({
-    tasks: [{
-        title: 'TestTask', 
-        state: 'ONGOING'
-    }],
+    tasks: [],
     draggedTask: null,
 
     addTask: (title, state) => 
@@ -28,9 +26,9 @@ const store = set => ({
     moveTask: (title, state) => 
         set(store => ({ 
             tasks: store.tasks.map(task => 
-                task.title === title ? {title, state } : task
+                task.title === title ? { title, state } : task
             ),
         })),
 });
 
-export const useStore = create(store);
+export const useStore = create(persist(devtools(store), { name: 'store' }));

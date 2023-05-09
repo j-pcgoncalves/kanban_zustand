@@ -3,10 +3,12 @@ import { shallow } from 'zustand/shallow';
 import './Column.css';
 import Task from './Task';
 import { useState } from 'react';
+import classNames from 'classnames';
 
 export default function Column({ state }) {
     const [text, setText] = useState('');
     const [open, setOpen] = useState(false);
+    const [drop, setDrop] = useState(false);
 
     const tasks = useStore(store => 
         store.tasks.filter(task => task.state === state),
@@ -20,11 +22,17 @@ export default function Column({ state }) {
 
     return (
         <div 
-            className="column" 
+            className={classNames('column', { drop: drop })} 
             onDragOver={e => {
                 e.preventDefault();
+                setDrop(true);
+            }}
+            onDragLeave={e => {
+                e.preventDefault();
+                setDrop(false);
             }}
             onDrop={e => {
+                setDrop(false);
                 setDraggedTask(null);
                 moveTask(draggedTask, state);
             }}
